@@ -7,13 +7,14 @@ var connection = mysql.createConnection({
   port     : '3306',
   user     : 'root',
   password : '1245690',
-  database : 'bamazon'
+  database : 'glamazon'
 });
  
 connection.connect(function(err){
   if (err) throw err;
   console.log("connected as id " + connection.threadId + "\n");
   displayItems();
+  askCustomer();
 });
 
 
@@ -21,9 +22,6 @@ function displayItems() {
   connection.query('SELECT * FROM `products`', function (error, results, fields) {
     if (error) throw error;
     prettyResults(results);
-    askCustomer();
-
-    
   })
 };
 
@@ -66,7 +64,14 @@ function askCustomer() {
       {
         type: "input",
         name: "amountBuy",
-        message: "How much of this item would you like to buy?"
+        message: "How much of this item would you like to buy?",
+        validate: function(value) {
+          if(isNaN(value) === false) {
+            return true;
+          } else {
+          return false;
+          }
+        }
       }
     ])
     .then(function(answer) {
@@ -85,11 +90,26 @@ function check(itemChosen,amountRequested) {
     var inStock = (products[0].stock_quantity);
     if (inStock >= amountRequested) {
       var total = products[0].price * amountRequested;
-      console.log("Thank you for choosing Glamazon! The total price of your purchase is $"+total+".");
+      console.log("Thank you for choosing Glamazon! The total price of your purchase is $"+total+".\n");
+      var newStockAmount = inStock - amountRequested;
+      updateData(itemChosen,newStockAmount);
+      displayItems();
       connection.end();
     } else {
       console.log("Insuffucient Quantity! Please pick another item, wait for the item to come back in stock or purchase less of that item.");
       displayItems();
+      askCustomer();
     }
   })
+};
+
+function updateData(id,num) {
+  console.log("Updating product data...\n");
+  connection.query(
+    `UPDATE products SET ? WHERE item_id=?`,
+    [{stock_quantity: num},id],
+    function(err,res) {
+      console.log(res.affectedRows + " product was updated!\n");
+    }
+  )
 };
