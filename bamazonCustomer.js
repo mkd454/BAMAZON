@@ -23,9 +23,9 @@ function displayItems() {
     prettyResults(results);
     askCustomer();
 
-    // connection.end();
+    
   })
-}
+};
 
 function prettyResults(results) {
   var table = new Table({
@@ -48,19 +48,18 @@ function prettyResults(results) {
 
 function askCustomer() {
   connection.query("SELECT * FROM products",function(err,products){
-    console.log("This is item one:" +products[0].item_id);
     if (err) throw err;
     inquirer.prompt([
       {
-        type: "rawlist",
+        type: "list",
         name: "item_Id",
+        pageSize: 10,
         message: "Which product would you like to buy? Please choose from the list of Ids below:",
         choices: function () {
           var productArray = [];
           for (var j=0; j < products.length; j++) {
-            productArray.push(products[j].item_id);
+            productArray.push("#"+products[j].item_id+" "+products[j].product_name);
           }
-          console.log(productArray);
           return productArray;
         }
       },
@@ -71,8 +70,26 @@ function askCustomer() {
       }
     ])
     .then(function(answer) {
-      console.log(answer);
+      var itemChosen = answer.item_Id.split("");
+      itemChosen = itemChosen[1].toString()+itemChosen[2].toString();
+      itemChosen = itemChosen.toString().trim();
+      var amountRequested = answer.amountBuy;
+      check(itemChosen,amountRequested);
     })
   })
-}
+};
 
+function check(itemChosen,amountRequested) {
+  connection.query("SELECT * FROM products WHERE item_id=?",[itemChosen],function(err,products){
+    if (err) throw err;
+    var inStock = (products[0].stock_quantity);
+    if (inStock >= amountRequested) {
+      var total = products[0].price * amountRequested;
+      console.log("Thank you for choosing Glamazon! The total price of your purchase is $"+total+".");
+      connection.end();
+    } else {
+      console.log("Insuffucient Quantity! Please pick another item, wait for the item to come back in stock or purchase less of that item.");
+      displayItems();
+    }
+  })
+};
