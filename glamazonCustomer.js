@@ -22,13 +22,14 @@ function displayItems() {
   connection.query('SELECT * FROM `products`', function (error, results, fields) {
     if (error) throw error;
     prettyResults(results);
+    console.log("\n");
   })
 };
 
 function prettyResults(results) {
   var table = new Table({
     head: ['ID', 'Product Name','Department', 'Price', 'In Stock']
-  , colWidths: [5, 40, 30, 10, 10]
+  , colWidths: [5, 40, 20, 15, 10]
   });
 
   for (var i=0; i < results.length; i++) {
@@ -36,7 +37,10 @@ function prettyResults(results) {
       [results[i].item_id, 
       results[i].product_name, 
       results[i].department_name, 
-      `$${results[i].price}`, 
+      `$${results[i].price.toLocaleString(undefined, {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}) }`, 
       results[i].stock_quantity]
     );
   }
@@ -51,7 +55,7 @@ function askCustomer() {
       {
         type: "list",
         name: "item_Id",
-        pageSize: 10,
+        pageSize: 15,
         message: "Which product would you like to buy? Please choose from the list of Ids below:",
         choices: function () {
           var productArray = [];
@@ -90,13 +94,16 @@ function check(itemChosen,amountRequested) {
     var inStock = (products[0].stock_quantity);
     if (inStock >= amountRequested) {
       var total = products[0].price * amountRequested;
-      console.log("Thank you for choosing Glamazon! The total price of your purchase is $"+total+".\n");
+      console.log("\nThank you for choosing Glamazon! The total price of your purchase is $"+total.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }) +".\n");
       var newStockAmount = inStock - amountRequested;
       updateData(itemChosen,newStockAmount);
       displayItems();
       connection.end();
     } else {
-      console.log("Insuffucient Quantity! Please pick another item, wait for the item to come back in stock or purchase less of that item.");
+      console.log("\nInsuffucient Quantity! Please pick another item, wait for the item to come back in stock or purchase less of that item.");
       displayItems();
       askCustomer();
     }
@@ -109,6 +116,7 @@ function updateData(id,num) {
     `UPDATE products SET ? WHERE item_id=?`,
     [{stock_quantity: num},id],
     function(err,res) {
+      if (err) throw err;
       console.log(res.affectedRows + " product was updated!\n");
     }
   )
