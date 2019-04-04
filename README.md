@@ -1,32 +1,43 @@
 # GLAMAZON
 
-## Technologies Used
-* Node.js
-    inquirer
-    mysql
-    cli-table
-* MySQL Workbench
-
-## Overview
-
-This project creates an Amazon-like storefront using MySQL and Node.js. The app will take in orders from customers and deplete stock from the store's inventory. As a bonus, the app can track product sales across the store's departments and then provide a summary of the highest-grossing departments in the store.
-
-## Submission Guide
-
-* Include screenshots (or a video) of typical user flows through your application (for the customer and if relevant the manager/supervisor). This includes views of the prompts and the responses after their selection (for the different selection options).
-
 ### Submission on BCS
 
 * Please submit the link to the Github Repository!
 * Add to Portfolio.
 
-## Instructions
+## Overview
 
+This project creates an Amazon-like storefront using MySQL and Node.js. The app will take in orders from customers and deplete stock from the store's inventory. As a bonus, the app can track product sales across the store's departments and then provide a summary of the highest-grossing departments in the store.
+
+## Installation
+
+1. Clone this repository to your computer and install dependencies:
+
+with SSH:
+```
+git clone git@github.com:mkd454/GLAMAZON.git
+```
+
+go to the root of your glamazon folder
+```
+npm install
+```
+
+2. Set up your MySQL credentials. Open `glamazon.sql` in your sql editor and run the script.
+
+3. Run the app with one of the following commands. Usage for each is documented below:
+``` 
+node glamazonCustomer.js
+node glamazonManager.js
+node glamazonSupervisor.js
+```
+
+## Application Features
 ### Customer View
 
 1. Uses MySQL Database called `glamazon`.
-2. Running the node.js file application will first display all of the items available for sale. 
-3. The app will prompt users with two messages.
+2. Running the glamazonCustomer.js file application will first display all of the items available for sale. 
+3. The app will prompt the user with two messages.
    * The first will ask the user the ID of the product they would like to buy.
    * The second message will ask how many units of the product they would like to buy.
 4. Once the customer has placed the order, the application will check if it has enough of the product to meet the customer's request.
@@ -38,9 +49,10 @@ This project creates an Amazon-like storefront using MySQL and Node.js. The app 
 #### Customer Example Demo
 <img src='./images/customer-example.gif'><br>
 
-### Challenge #2: Manager View (Next Level)
+### Manager View
 
-* Create a new Node application called `bamazonManager.js`. Running this application will:
+1. Uses MySQL Database called `glamazon`.
+2. Running `bamazonManager.js` will:
 
   * List a set of menu options:
 
@@ -52,21 +64,18 @@ This project creates an Amazon-like storefront using MySQL and Node.js. The app 
     
     * Add New Product
 
-  * If a manager selects `View Products for Sale`, the app should list every available item: the item IDs, names, prices, and quantities.
+    * Exit and End Session
 
-  * If a manager selects `View Low Inventory`, then it should list all items with an inventory count lower than five.
+3. If a manager selects `View Products for Sale`, the app will list every available item: the item IDs, names, prices, and quantities.
+4. If a manager selects `View Low Inventory`, then it will list all items with an inventory count lower than five.
+5. If a manager selects `Add to Inventory`, your app will display a prompt that will let the manager "add more" of any item currently in the store.
+6. If a manager selects `Add New Product`, it will allow the manager to add a completely new product to the store.
+7. If a manager selects `Exit and End Session`, it will quit the application.
 
-  * If a manager selects `Add to Inventory`, your app should display a prompt that will let the manager "add more" of any item currently in the store.
+#### Manager Example Demo
+<img src='./images/manager-example.gif'><br>
 
-  * If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
-
-- - -
-
-* If you finished Challenge #2 and put in all the hours you were willing to spend on this activity, then rest easy! Otherwise continue to the next and final challenge.
-
-- - -
-
-### Challenge #3: Supervisor View (Final Level)
+### Supervisor View
 
 1. Create a new MySQL table called `departments`. Your table should include the following columns:
 
@@ -104,5 +113,24 @@ This project creates an Amazon-like storefront using MySQL and Node.js. The app 
    * Hint: You may need to look into JOINS.
 
    * **HINT**: There may be an NPM package that can log the table to the console. What's is it? Good question :)
+
+## Technologies Used
+* [Node.js](https://www.npmjs.com/)
+  - [Inquirer](https://github.com/SBoudrias/Inquirer.js)
+  - [MySQL](https://github.com/mysqljs/mysql)
+  - [CLI-Table](https://github.com/Automattic/cli-table)
+* [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)
+
+## Where users can get help with this project
+If you need assistance, please reach out to this email with your questions and concerns: <dangmaryk@gmail.com>.
+
+## Who maintains and contributes to this project 
+Mary Dang
+Github Repository link: <https://github.com/mkd454/liri-node-app>
+Portfolio link: <https://mkd454.github.io/Portfolio-V2/>
+
+## Acknowledgments
+
+* Thanks to The Coding Boot Camp at UT Austin
 
 - - -

@@ -148,20 +148,49 @@ function addInventory() {
 function newProduct() {
   inquirer.prompt([
     {
-      
-    }
-  ])
-  console.log("Inserting a new product...\n");
-  connection.query(
-    `INSERT INTO products SET ?`,
-    {
-      product_name: ,
-      department_name: ,
-      price: ,
-      stock_quantity: 
+      type: "input",
+      name: "question1",
+      message: "What is the name of the new product?"
     },
-    function(err, res) {
-      console.log("New product successfully inserted!\n");
+    {
+      type: "input",
+      name: "question2",
+      message: "What department does this product fall under?"
+    },
+    {
+      type: "input",
+      name: "question3",
+      message: "How much would you like to sell this product for?",
+      validate: function(num) {
+        if(isNaN(num) === false) {
+          return true;
+        } else {
+        return false;
+        }
+      }
+    },
+    {
+      type: "input",
+      name: "question4",
+      message: "How many are available for sale?",
+      validate: function(stock) {
+        if(isNaN(stock) === false) {
+          return true;
+        } else {
+        return false;
+        }
+      }
     }
-  )
+  ]).then(function(answer) {
+    console.log("Inserting a new product...\n");
+    connection.query(
+      `INSERT INTO products (product_name,department_name,price,stock_quantity)
+        VALUES ("${answer.question1}","${answer.question2}",${answer.question3},${answer.question4});`,
+      function(err, res) {
+        if (err) throw err;
+        console.log("New product successfully inserted!\n");
+        menu();
+      }
+    )
+  })
 };
