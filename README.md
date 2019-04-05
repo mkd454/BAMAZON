@@ -1,10 +1,5 @@
 # GLAMAZON
 
-### Submission on BCS
-
-* Please submit the link to the Github Repository!
-* Add to Portfolio.
-
 ## Overview
 
 This project creates an Amazon-like storefront using MySQL and Node.js. The app will take in orders from customers and deplete stock from the store's inventory. As a bonus, the app can track product sales across the store's departments and then provide a summary of the highest-grossing departments in the store.
@@ -74,33 +69,6 @@ node glamazonSupervisor.js
 
 #### Manager Example Demo
 <img src='./images/manager-example.gif'><br>
-
-### Supervisor View
-
-1. Running `bamazonSupervisor.js` will list a set of menu options:
-
-   * View Product Sales by Department
-   
-   * Create New Department
-
-2. When a supervisor selects `View Product Sales by Department`, the app will display a summarized table in their terminal/bash window. Use the table below as a guide.
-
-| department_id | department_name | over_head_costs | product_sales | total_profit |
-| ------------- | --------------- | --------------- | ------------- | ------------ |
-| 01            | Electronics     | 10000           | 20000         | 10000        |
-| 02            | Clothing        | 60000           | 100000        | 40000        |
-
-3. The `total_profit` column should be calculated on the fly using the difference between `over_head_costs` and `product_sales`. `total_profit` should not be stored in any database. You should use a custom alias.
-
-4. If you can't get the table to display properly after a few hours, then feel free to go back and just add `total_profit` to the `departments` table.
-
-   * Hint: You may need to look into aliases in MySQL.
-
-   * Hint: You may need to look into GROUP BYs.
-
-   * Hint: You may need to look into JOINS.
-
-   * **HINT**: There may be an NPM package that can log the table to the console. What's is it? Good question :)
 
 ## Technologies Used
 * [Node.js](https://www.npmjs.com/)
