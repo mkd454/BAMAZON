@@ -99,7 +99,9 @@ function check(itemChosen,amountRequested) {
         maximumFractionDigits: 2
       }) +".\n");
       var newStockAmount = inStock - amountRequested;
-      updateData(itemChosen,newStockAmount);
+      var sales = total + products[0].product_sales;
+      console.log(sales);
+      updateData(itemChosen,newStockAmount, sales);
       displayItems();
       connection.end();
     } else {
@@ -110,11 +112,15 @@ function check(itemChosen,amountRequested) {
   })
 };
 
-function updateData(id,num) {
+function updateData(id,num,sales) {
   console.log("Updating product data...\n");
   connection.query(
     `UPDATE products SET ? WHERE item_id=?`,
-    [{stock_quantity: num},id],
+    [
+      {stock_quantity: num,
+      product_sales: sales},
+      id
+    ],
     function(err,res) {
       if (err) throw err;
       console.log(res.affectedRows + " product was updated!\n");

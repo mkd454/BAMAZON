@@ -1,14 +1,21 @@
-DROP DATABASE IF EXISTS bamazon;
-CREATE DATABASE bamazon;
+DROP DATABASE IF EXISTS glamazon;
+CREATE DATABASE glamazon;
 
-USE bamazon;
+USE glamazon;
 
 CREATE TABLE products (
 	item_id INT(10) PRIMARY KEY AUTO_INCREMENT NOT NULL,
     product_name VARCHAR(100) NOT NULL,
 	department_name VARCHAR(50) NOT NULL,
     price DEC(8,2),
-    stock_quantity INT(10)
+    stock_quantity INT(10),
+    product_sales INT(10) Default 0
+);
+
+CREATE TABLE departments (
+	department_id INT NOT NULL,
+    department_name VARCHAR(60) NOT NULL,
+    over_head_costs INT DEFAULT 0
 );
 
 # Mock products
@@ -24,4 +31,4 @@ VALUES ("Bose Headphones","Electronics",349.99,9),
     ("Engagement Ring","Jewelry",1999.99,2),
     ("Spinner Luggage","Travel Gear",49.99,6);
     
-SELECT * FROM products;
+SELECT * FROM departments;
