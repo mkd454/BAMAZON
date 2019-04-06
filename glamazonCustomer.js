@@ -100,7 +100,7 @@ function check(itemChosen,amountRequested) {
       }) +".\n");
       var newStockAmount = inStock - amountRequested;
       var sales = total + products[0].product_sales;
-      console.log(sales);
+      // console.log(sales);
       updateData(itemChosen,newStockAmount, sales);
       displayItems();
       connection.end();
